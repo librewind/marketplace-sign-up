@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+    php:
+        build:
+            context: ./config/docker/local/php
+            args:
+                - HOST_UID=${HOST_UID}
+        image: marketplace-sign-up-php
+        container_name: marketplace-sign-up-php
+        networks:
+            net:
+                aliases:
+                    - marketplace-sign-up-php
+            local:
+        working_dir: /var/www/html
+        volumes:
+            - .:/var/www/html
+        expose:
+            - "9000"
+        entrypoint: ./config/docker/local/php/docker-entrypoint.sh
+        environment:
+            - COMPOSER_HOME=/var/www/html/var/composer
+            - PHP_IDE_CONFIG
+            - APP_ENV
+networks:
+    net:
+        name: marketplace-net
+    local:
+        name: marketplace-sign-up-local
